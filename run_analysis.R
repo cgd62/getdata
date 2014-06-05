@@ -24,12 +24,12 @@ mean_std <- df[,c("Subject","ActCode",fi[keep,"Variable"])]
 
 final <- merge(ac,mean_std,by.y="ActCode",by.x="Code")
 
-sum <- aggregate(final[,4:ncol(final)-1],
+sum <- aggregate(final[,4:ncol(final)],
                  by=list(Activity=final$Activity,Subject=final$Subject), FUN=mean)
 
 setwd("..")
-write.csv(final,"final_tidy.csv",row.names=FALSE)
-write.csv(sum,"final_tidy_mean.csv",row.names=FALSE)
+write.csv(final,"final_tidy.txt",row.names=FALSE)
+write.csv(sum,"final_tidy_mean.txt",row.names=FALSE)
 
 rm(df)
 rm(mean_std)
