@@ -7,6 +7,8 @@ loadin <- function(dir) {
   return(cbind(s,y,x))
 }
 
+setwd("UCI HAR Dataset")
+
 fi <- read.table("features.txt",col.names=c("Code","Variable"),
                  colClass=c("integer","character"))
 
@@ -20,11 +22,14 @@ keep <- grep("mean|std",fi[,"Variable"])
 
 mean_std <- df[,c("Subject","ActCode",fi[keep,"Variable"])]
 
-final <- merge(mean_std,ac,by.x="ActCode",by.y="Code")
+final <- merge(ac,mean_std,by.y="ActCode",by.x="Code")
 
 sum <- aggregate(final[,4:ncol(final)-1],
                  by=list(Activity=final$Activity,Subject=final$Subject), FUN=mean)
 
+setwd("..")
+write.csv(final,"final_tidy.csv",row.names=FALSE)
+write.csv(sum,"final_tidy_mean.csv",row.names=FALSE)
+
 rm(df)
 rm(mean_std)
-
